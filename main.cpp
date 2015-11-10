@@ -8,8 +8,8 @@
 #include <SDL/SDL_ttf.h>
 using namespace std;
 
-const int SCREEN_WIDTH=640;
-const int SCREEN_HEIGHT=480;
+const int SCREEN_WIDTH=750;
+const int SCREEN_HEIGHT=761;
 const int SCREEN_BPP=32;
 
 const string MENU = "menu.png";
