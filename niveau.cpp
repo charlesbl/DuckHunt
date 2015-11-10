@@ -1,11 +1,11 @@
 #include <SDL/SDL.h>
 #include <niveau.h>
+#include <canard.h>
 
-struct niveau
+
+
+void initNiveau(niveau &niv, int vitesse)
 {
-    canard listeCanard[NB_CANARD_PAR_NIVEAU];
-    int difficulte;
-    int vitesse;
 
-};
+}
 
