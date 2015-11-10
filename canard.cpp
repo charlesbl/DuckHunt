@@ -1,16 +1,25 @@
-#include<SDL/SDL.h>
+#include <SDL/SDL.h>
+#include <canard.h>
 
-// couleur: 0 = noir, 1 = marron, 2 = bleueeee
-struct canard{
-    int x;
-    int y;
-    int mvx;
-    int mvy;
-    int couleur;
-    SDL_Rect rect;
-};
+void initCanard(canard &can, int x, int y, int couleur){
+    can.x = x;
+    can.y = y;
+    can.couleur = couleur;
+    if(couleur == 0)
+    {
+        can.mvx = vitesseCanNoir;
+        can.mvy = vitesseCanNoir;
+    }else if(couleur == 1)
+    {
+        can.mvx = vitesseCanMarron;
+        can.mvy = vitesseCanMarron;
+    }else if(couleur == 2){
+        can.mvx = vitesseCanBleu;
+        can.mvy = vitesseCanBleu;
+    }
+}
 
-// à pelér à chakes tourres de bous kles
+//appellé a chaque tour de boucle
 void update()
 {
 
