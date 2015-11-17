@@ -20,7 +20,7 @@ void initCanard(canard &can, int x, int y, int couleur){
 }
 
 //appellé a chaque tour de boucle
-void update()
+void updateCan()
 {
     //affichage
     //mouvement

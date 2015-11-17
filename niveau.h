@@ -11,5 +11,6 @@ struct niveau
 };
 
 void initNiveau(niveau &niv, int vitesse);
+void updateNiv(niveau &niv);
 
 #endif // NIVEAU_H
