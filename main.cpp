@@ -59,10 +59,6 @@ int main ()
             showMenu(menu, screen);
         }else
         {
-            niveau niv;
-            niv.cNoir.rect;
-            initNiveau(niv,4);
-
             SDL_ShowCursor(0);
             SDL_BlitSurface(fondNiveau, NULL, screen, NULL);
 
