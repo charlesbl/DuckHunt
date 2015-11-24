@@ -23,25 +23,28 @@ const string CROSSAIR = "viseur.png";
 int main ()
 {
     bool quit=false;
-    bool menu=true;
+    bool showmenu=true;
 
-    SDL_Surface *screen, *fondMenu, *fondNiveau, *crossair, *texte = NULL;
+    SDL_Surface *screen, *fondNiveau, *crossair = NULL;
     SDL_Event event;
+    Menu menu;
 
     SDL_Rect rCrossair = {0, 0, 0, 0};
 
     SDL_Init(SDL_INIT_EVERYTHING);
     screen=SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT, SCREEN_BPP,SDL_SWSURFACE);
-    fondMenu = IMG_Load(MENU.c_str());
     fondNiveau = IMG_Load(NIVEAU.c_str());
     crossair = SDL_DisplayFormat(IMG_Load(CROSSAIR.c_str()));
 
     TTF_Init();
     TTF_Font *menuFonts;
-    menuFonts = TTF_OpenFont("duck_hunt.tff",60);
-    SDL_Color menuColor = {0, 0 ,0};
+    menuFonts = TTF_OpenFont("duck_hunt.ttf",100);
 
-    //texte = TTF_RenderText_Blended(menuFonts, "Salut les Zér0s !", menuColor);
+    menu.tJouer = TTF_RenderText_Blended(menuFonts, "Jouer", menu.menuColor);
+    menu.rjouer = {80, 80, 300, 100};
+    menu.tQuit = TTF_RenderText_Blended(menuFonts, "Quitter", menu.menuColor);
+    menu.rQuit = {80, 200, 300, 100};
+    menu.fondMenu = IMG_Load(MENU.c_str());
 
     ostringstream mssg;
     Uint8 *keystates = SDL_GetKeyState(NULL);
@@ -51,26 +54,27 @@ int main ()
         mssg.flush();
         SDL_FillRect(screen,&screen->clip_rect, SDL_MapRGB(screen->format,0,255,0));
 
-        if(menu)
+        if(showmenu)
         {
-            SDL_BlitSurface(fondMenu, NULL, screen, NULL);
+            showMenu(menu, screen);
         }else
         {
-            SDL_ShowCursor(0);
-            SDL_BlitSurface(fondNiveau, NULL, screen, NULL);
-
-            SDL_SetColorKey(crossair, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
-            SDL_BlitSurface(crossair, NULL, screen, &rCrossair);
-
             niveau niv;
             niv.cNoir.rect;
             initNiveau(niv,4);
-            updateNiv(niv);
+
+            SDL_ShowCursor(0);
+            SDL_BlitSurface(fondNiveau, NULL, screen, NULL);
+
+            updateCan(screen);
+
+            SDL_SetColorKey(crossair, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
+            SDL_BlitSurface(crossair, NULL, screen, &rCrossair);
         }
         if(keystates[SDLK_SPACE])
-                menu=false;
+            showmenu=false;
         if(keystates[SDLK_ESCAPE])
-                quit=true;
+            quit=true;
 
         while(SDL_PollEvent(&event))
         {
@@ -78,12 +82,30 @@ int main ()
             {
                 quit=true;
             }
-            else if(event.type == SDL_MOUSEMOTION && !menu)
+            else if(event.type == SDL_MOUSEMOTION)
             {
                 int x = event.button.x;
                 int y = event.button.y;
 
-                rCrossair = {x, y, 30, 30};
+                if(!showmenu)
+                {
+                    rCrossair = {x, y, 30, 30};
+                }
+            }
+            else if(event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                int x = event.button.x;
+                int y = event.button.y;
+
+                if(showmenu)
+                {
+                    if(onRect(x, y, menu.rjouer)){
+                        showmenu = false;
+                    }
+                    if(onRect(x, y, menu.rQuit)){
+                        quit = true;
+                    }
+                }
             }
         }
         SDL_Flip(screen);

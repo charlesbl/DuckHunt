@@ -1,5 +1,11 @@
 #include <SDL/SDL.h>
+#include <affichage.h>
 #include <canard.h>
+#include <SDL/SDL_image.h>
+
+//Les attributs de l'image
+const int SHEET_WIDTH=1379;
+const int SHEET_HEIGHT=564;
 
 void initCanard(canard &can, int x, int y, int couleur){
     can.x = x;
@@ -20,8 +26,23 @@ void initCanard(canard &can, int x, int y, int couleur){
 }
 
 //appellé a chaque tour de boucle
-void updateCan()
+void updateCan(SDL_Surface *screen)
 {
     //affichage
+    SDL_Surface *can;
+
+    SDL_Rect rect;
+    rect.x=0;
+    rect.y=217;
+    rect.w=80;
+    rect.h=80;
+
+    can = SDL_DisplayFormat(IMG_Load("duck.png"));
+
+    SDL_SetColorKey(can, SDL_SRCCOLORKEY, SDL_MapRGB(can->format,228, 255, 0));
+
+    applySurface(100,100,can,screen,&rect);
+
     //mouvement
+
 }

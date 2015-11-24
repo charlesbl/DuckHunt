@@ -18,6 +18,6 @@ struct canard{
 
 void initCanard(canard &can, int x, int y, int couleur);
 
-void updateCan();
+void updateCan(SDL_Surface *screen);
 
 #endif // CANARD_H
