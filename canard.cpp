@@ -36,7 +36,7 @@ void updateCan(SDL_Surface *screen)
     rect.y=217;
     rect.w=80;
     rect.h=80;
-/*// A METTRE DANS LE MAIN DUCON
+/*// A METTRE DANS LE MAIN DUCON tkt maggle
     can = SDL_DisplayFormat(IMG_Load("duck.png"));
 
     SDL_SetColorKey(can, SDL_SRCCOLORKEY, SDL_MapRGB(can->format,228, 255, 0));
