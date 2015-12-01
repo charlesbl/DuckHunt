@@ -53,7 +53,7 @@ void moveCanard(Canard &can)
     can.y += can.mvy;
 
     // Correction Mouvement Vertical
-    if((can.y + taille > SCREEN_HEIGHT) || (can.y< 0))
+    if((can.y + taille > SCREEN_HEIGHT - 250) || (can.y< 0))
     {
         can.y -= can.mvy;
         can.mvy *= -1;
