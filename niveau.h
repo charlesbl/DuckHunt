@@ -1,16 +1,17 @@
 #ifndef NIVEAU_H
 #define NIVEAU_H
 #include <canard.h>
+
 const int NB_CANARD_PAR_NIVEAU = 10;
 
-struct niveau
+struct Niveau
 {
-    canard cNoir;
-    int difficulte;
-    int vitesse;
+    Canard cNoir;
+    Canard cMarron;
+    Canard cBleu;
 };
 
-void initNiveau(niveau &niv, int vitesse);
-void updateNiv(niveau &niv);
+void initNiveau(Niveau &niv);
+void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv);
 
 #endif // NIVEAU_H

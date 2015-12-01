@@ -1,13 +1,18 @@
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include <affichage.h>
 #include <canard.h>
-#include <SDL/SDL_image.h>
 
 //Les attributs de l'image
-const int SHEET_WIDTH=1379;
-const int SHEET_HEIGHT=564;
 
-void initCanard(canard &can, int x, int y, int couleur){
+const int SCREEN_WIDTH=750;
+const int SCREEN_HEIGHT=761;
+
+const int vitesseCanNoir = 5;
+const int vitesseCanMarron = 7;
+const int vitesseCanBleu = 10;
+
+void initCanard(Canard &can, int x, int y, int couleur){
     can.x = x;
     can.y = y;
     can.couleur = couleur;
@@ -26,23 +31,35 @@ void initCanard(canard &can, int x, int y, int couleur){
 }
 
 //appellé a chaque tour de boucle
-void updateCan(SDL_Surface *screen)
+void updateCan(SDL_Surface *screen, SDL_Surface *duck, Canard &can)
 {
-    //affichage
-    SDL_Surface *can;
+    moveCanard(can);
+    showDuck(screen, duck, can);
+}
+void moveCanard(Canard &can)
+{
+    int taille = 80;
+    can.rect = {can.x, can.y, taille, taille};
 
-    SDL_Rect rect;
-    rect.x=0;
-    rect.y=217;
-    rect.w=80;
-    rect.h=80;
-/*// A METTRE DANS LE MAIN DUCON tkt maggle
-    can = SDL_DisplayFormat(IMG_Load("duck.png"));
+    can.x += can.mvx;
 
-    SDL_SetColorKey(can, SDL_SRCCOLORKEY, SDL_MapRGB(can->format,228, 255, 0));
-*/
-    applySurface(100,100,can,screen,&rect);
+    // Correction Mouvement Horizontal
+    if((can.x + taille > SCREEN_WIDTH) || (can.x < 0))
+    {
+        can.x -= can.mvx;
+        can.mvx *=- 1;
+    }
 
-    //mouvement
+    can.y += can.mvy;
 
+    // Correction Mouvement Vertical
+    if((can.y + taille > SCREEN_HEIGHT) || (can.y< 0))
+    {
+        can.y -= can.mvy;
+        can.mvy *= -1;
+    }
+
+    if(can.isDead){
+        can.x = -9999;
+    }
 }

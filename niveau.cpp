@@ -2,40 +2,19 @@
 #include <niveau.h>
 #include <canard.h>
 
-void initNiveau(niveau &niv, int vitesse)
-{
+extern int nbAmmo;
 
+void initNiveau(Niveau &niv)
+{
+    nbAmmo = 3;
+    initCanard(niv.cNoir, 100, 100, 0);
+    initCanard(niv.cMarron, 200, 100, 1);
+    initCanard(niv.cBleu, 200, 200, 2);
 }
 
-void updateNiv(niveau &niv)
+void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
 {
-    //affichage
-}
-bool collision(SDL_Rect a, SDL_Rect b)
-{
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    leftA = a.x;
-    rightA = a.x + a.w;
-    topA = a.y;
-    bottomA = a.y + a.h;
-
-    leftB = b.x;
-    rightB = b.x + b.w;
-    topB = b.y;
-    bottomB = b.y + b.h;
-
-    if(bottomA <= topB)
-        return false;
-    if(topA >= bottomB)
-        return false;
-    if(rightA <= leftB)
-        return false;
-    if(leftA >= rightB)
-        return false;
-
-    return true;
+    updateCan(screen, duck, niv.cNoir);
+    updateCan(screen, duck, niv.cMarron);
+    updateCan(screen, duck, niv.cBleu);
 }

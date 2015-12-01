@@ -18,6 +18,9 @@ const int SCREEN_BPP=32;
 const string MENU = "menu.png";
 const string NIVEAU = "backGame.png";
 const string CROSSAIR = "viseur.png";
+const string BULLET = "shot.png";
+const string DUCK = "duck.png";
+int nbAmmo = 3;
 
 
 int main ()
@@ -25,7 +28,7 @@ int main ()
     bool quit=false;
     bool showmenu=true;
 
-    SDL_Surface *screen, *fondNiveau, *crossair = NULL;
+    SDL_Surface *screen, *fondNiveau, *crossair, *bullet, *duck = NULL;
     SDL_Event event;
     Menu menu;
 
@@ -35,6 +38,12 @@ int main ()
     screen=SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT, SCREEN_BPP,SDL_SWSURFACE);
     fondNiveau = IMG_Load(NIVEAU.c_str());
     crossair = SDL_DisplayFormat(IMG_Load(CROSSAIR.c_str()));
+    bullet = SDL_DisplayFormat(IMG_Load(BULLET.c_str()));
+    duck = SDL_DisplayFormat(IMG_Load(DUCK.c_str()));
+
+    SDL_SetColorKey(bullet, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 255, 255, 255));
+    SDL_SetColorKey(crossair, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
+    SDL_SetColorKey(duck, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 228, 255, 0));
 
     TTF_Init();
     TTF_Font *menuFonts;
@@ -49,6 +58,9 @@ int main ()
     ostringstream mssg;
     Uint8 *keystates = SDL_GetKeyState(NULL);
 
+    Niveau niv;
+    initNiveau(niv);
+
     while(!quit)
     {
         mssg.flush();
@@ -62,10 +74,11 @@ int main ()
             SDL_ShowCursor(0);
             SDL_BlitSurface(fondNiveau, NULL, screen, NULL);
 
-            updateCan(screen);
+            updateNiv(screen, duck, niv);
 
-            SDL_SetColorKey(crossair, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
             SDL_BlitSurface(crossair, NULL, screen, &rCrossair);
+            showBullet(nbAmmo, screen, bullet);
+
         }
         if(keystates[SDLK_SPACE])
             showmenu=false;
@@ -100,6 +113,15 @@ int main ()
                     }
                     if(onRect(x, y, menu.rQuit)){
                         quit = true;
+                    }
+                }else{
+                    nbAmmo--;
+                    if(onRect(x, y, niv.cNoir.rect)){
+                        niv.cNoir.isDead = true;
+                    }else if(onRect(x, y, niv.cMarron.rect)){
+                        niv.cMarron.isDead = true;
+                    }else if(onRect(x, y, niv.cBleu.rect)){
+                        niv.cBleu.isDead = true;
                     }
                 }
             }

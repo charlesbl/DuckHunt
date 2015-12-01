@@ -1,12 +1,9 @@
 #ifndef CANARD_H
 #define CANARD_H
 
-const int vitesseCanNoir = 10;
-const int vitesseCanMarron = 20;
-const int vitesseCanBleu = 30;
 
 // couleur: 0 = noir, 1 = marron, 2 = bleueeee
-struct canard{
+struct Canard{
     int x;
     int y;
     int mvx;
@@ -16,8 +13,9 @@ struct canard{
     SDL_Rect rect;
 };
 
-void initCanard(canard &can, int x, int y, int couleur);
+void initCanard(Canard &can, int x, int y, int couleur);
 
-void updateCan(SDL_Surface *screen);
+void updateCan(SDL_Surface *screen, SDL_Surface *duck, Canard &can);
 
+void moveCanard(Canard &can);
 #endif // CANARD_H
