@@ -13,5 +13,7 @@ struct Niveau
 
 void initNiveau(Niveau &niv);
 void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv);
+void genRandomPos(int &x, int &y);
+void killRandomCan(Niveau &niv);
 
 #endif // NIVEAU_H

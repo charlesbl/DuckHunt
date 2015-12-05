@@ -26,6 +26,7 @@ int nbAmmo = 3;
 
 int main ()
 {
+    srand(time(NULL));
     bool quit=false;
     bool showmenu=true;
 

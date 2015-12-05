@@ -16,6 +16,7 @@ void initCanard(Canard &can, int x, int y, int couleur){
     can.x = x;
     can.y = y;
     can.couleur = couleur;
+    can.isDead = false;
     if(couleur == 0)
     {
         can.mvx = vitesseCanNoir;
