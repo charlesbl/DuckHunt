@@ -18,12 +18,36 @@ bool onRect(int x, int y, SDL_Rect rect)
     return ((x > rect.x && x < rect.x+rect.w) && (y > rect.y && y < rect.y+rect.h));
 }
 
+void initMenu(Menu &menu)
+{
+    menu.sJouer, menu.sQuit = false;
+    menu.menuFonts = TTF_OpenFont("duck_hunt.ttf",100);
+    menu.menuColor = {0, 0 ,0};
+    menu.menuColorS = {200, 200 ,200};
+
+    menu.tJouer = TTF_RenderText_Blended(menu.menuFonts, "Jouer", menu.menuColor);
+    menu.tJouerS = TTF_RenderText_Blended(menu.menuFonts, "Jouer", menu.menuColorS);
+    menu.rjouer = {80, 80, 275, 90};
+    menu.tQuit = TTF_RenderText_Blended(menu.menuFonts, "Quitter", menu.menuColor);
+    menu.tQuitS = TTF_RenderText_Blended(menu.menuFonts, "Quitter", menu.menuColorS);
+    menu.rQuit = {80, 200, 375, 90};
+    std::string smenu = "menu.png";
+    menu.fondMenu = IMG_Load(smenu.c_str());
+}
+
 void showMenu(Menu menu, SDL_Surface *screen)
 {
     applySurface(0, 0, menu.fondMenu, screen, NULL);
 
-    SDL_BlitSurface(menu.tJouer, NULL, screen, &menu.rjouer);
-    SDL_BlitSurface(menu.tQuit, NULL, screen, &menu.rQuit);
+    if(menu.sJouer)
+        SDL_BlitSurface(menu.tJouerS, NULL, screen, &menu.rjouer);
+    else
+        SDL_BlitSurface(menu.tJouer, NULL, screen, &menu.rjouer);
+
+    if(menu.sQuit)
+        SDL_BlitSurface(menu.tQuitS, NULL, screen, &menu.rQuit);
+    else
+        SDL_BlitSurface(menu.tQuit, NULL, screen, &menu.rQuit);
 }
 void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet)
 {

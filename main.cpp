@@ -50,14 +50,8 @@ int main ()
     SDL_SetColorKey(duck, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 228, 255, 0));
 
     TTF_Init();
-    TTF_Font *menuFonts;
-    menuFonts = TTF_OpenFont("duck_hunt.ttf",100);
 
-    menu.tJouer = TTF_RenderText_Blended(menuFonts, "Jouer", menu.menuColor);
-    menu.rjouer = {80, 80, 300, 100};
-    menu.tQuit = TTF_RenderText_Blended(menuFonts, "Quitter", menu.menuColor);
-    menu.rQuit = {80, 200, 300, 100};
-    menu.fondMenu = IMG_Load(MENU.c_str());
+    initMenu(menu);
 
     ostringstream mssg;
     Uint8 *keystates = SDL_GetKeyState(NULL);
@@ -102,8 +96,16 @@ int main ()
                 int x = event.button.x;
                 int y = event.button.y;
 
-                if(!showmenu)
+                if(showmenu)
                 {
+                    if(onRect(x, y, menu.rjouer)){
+                        menu.sJouer = true;
+                    }else if(onRect(x, y, menu.rQuit)){
+                        menu.sQuit = true;
+                    }else{
+                        menu.sJouer = menu.sQuit = false;
+                    }
+                }else{
                     rCrossair = {x, y, 30, 30};
                 }
             }
@@ -138,7 +140,7 @@ int main ()
         SDL_Delay(10);
     }
 
-    TTF_CloseFont(menuFonts);
+    TTF_CloseFont(menu.menuFonts);
     TTF_Quit();
 
     SDL_FreeSurface(screen);

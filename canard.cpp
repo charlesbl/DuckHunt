@@ -3,8 +3,6 @@
 #include <affichage.h>
 #include <canard.h>
 
-//Les attributs de l'image
-
 const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 
