@@ -11,6 +11,7 @@ struct Canard{
     int couleur;
     bool isDead;
     SDL_Rect rect;
+    int time;
 };
 
 void initCanard(Canard &can, int x, int y, int couleur);

@@ -17,6 +17,7 @@ void initCanard(Canard &can, int x, int y, int couleur){
     can.y = y;
     can.couleur = couleur;
     can.isDead = false;
+    can.time = 0;
     if(couleur == 0)
     {
         can.mvx = vitesseCanNoir;
@@ -35,6 +36,7 @@ void initCanard(Canard &can, int x, int y, int couleur){
 void updateCan(SDL_Surface *screen, SDL_Surface *duck, Canard &can)
 {
     moveCanard(can);
+    can.time++;
     showDuck(screen, duck, can);
 }
 void moveCanard(Canard &can)
@@ -42,25 +44,29 @@ void moveCanard(Canard &can)
     int taille = 80;
     can.rect = {can.x, can.y, taille, taille};
 
-    can.x += can.mvx;
-
-    // Correction Mouvement Horizontal
-    if((can.x + taille > SCREEN_WIDTH) || (can.x < 0))
+    if(!can.isDead)
     {
-        can.x -= can.mvx;
-        can.mvx *=- 1;
+        can.x += can.mvx;
+
+        // Correction Mouvement Horizontal
+        if((can.x + taille > SCREEN_WIDTH) || (can.x < 0))
+        {
+            can.x -= can.mvx;
+            can.mvx *=- 1;
+        }
+
+        can.y += can.mvy;
+
+        // Correction Mouvement Vertical
+        if((can.y + taille > SCREEN_HEIGHT - 250) || (can.y< 0))
+        {
+            can.y -= can.mvy;
+            can.mvy *= -1;
+        }
     }
-
-    can.y += can.mvy;
-
-    // Correction Mouvement Vertical
-    if((can.y + taille > SCREEN_HEIGHT - 250) || (can.y< 0))
-    {
-        can.y -= can.mvy;
-        can.mvy *= -1;
-    }
-
-    if(can.isDead){
-        can.x = -9999;
+    else{
+        if(can.mvy < 0)
+            can.mvy *= -1;
+        can.y += can.mvy;
     }
 }

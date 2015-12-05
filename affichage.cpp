@@ -44,18 +44,36 @@ void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet)
 void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can)
 {
     SDL_Rect rect;
+    int posCouleur;
 
     if(can.couleur == 0) //Noir
     {
-        rect = {0, 227, 79, 87};
+        posCouleur = 227;
     }else if(can.couleur == 1) //marron
     {
-        rect = {0, 312, 79, 87};
+        posCouleur = 312;
 
-    }else if(can.couleur == 2) //BLUEUEEUIEUUEUE
+    }else //BLUEUEEUIEUUEUE
     {
-        rect = {0, 392, 79, 87};
+        posCouleur = 392;
     }
+
+    if(!can.isDead){
+        if(can.time % 8 < 2)
+            rect = {0, posCouleur, 79, 87};
+        else if(can.time % 8 < 4)
+            rect = {75, posCouleur, 72, 87};
+        else if(can.time % 8 < 6)
+            rect = {150, posCouleur, 65, 87};
+        else
+            rect = {75, posCouleur, 72, 87};
+    } else {
+        if(can.time % 4 < 2)
+            rect = {529, posCouleur, 40, 87};
+        else
+            rect = {578, posCouleur, 40, 87};
+    }
+
 
     applySurface(can.x , can.y, duck, screen, &rect);
 }

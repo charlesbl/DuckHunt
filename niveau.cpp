@@ -42,10 +42,16 @@ void genRandomPos(int &x, int &y)
 void killRandomCan(Niveau &niv)
 {
     int a = rand() % 3;
-    if(a == 0)
+    if(a == 0){
         niv.cBleu.isDead = true;
-    if(a == 1)
+        niv.cBleu.x = -200;
+    }
+    if(a == 1){
         niv.cMarron.isDead = true;
-    if(a == 2)
+        niv.cMarron.x = -200;
+    }
+    if(a == 2){
         niv.cNoir.isDead = true;
+        niv.cNoir.x = -200;
+    }
 }
