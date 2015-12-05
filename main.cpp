@@ -15,6 +15,7 @@ const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 const int SCREEN_BPP=32;
 
+
 const string MENU = "menu.png";
 const string NIVEAU = "backGame.png";
 const string NIVEAUB = "backGameBlit.png";
