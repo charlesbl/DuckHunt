@@ -6,9 +6,9 @@
 const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 
-const int vitesseCanNoir = 5;
-const int vitesseCanMarron = 7;
-const int vitesseCanBleu = 10;
+const int vitesseCanNoir = 3;
+const int vitesseCanMarron = 5;
+const int vitesseCanBleu = 7;
 
 void initCanard(Canard &can, int x, int y, int couleur){
     can.x = x;
@@ -63,8 +63,6 @@ void moveCanard(Canard &can)
         }
     }
     else{
-        if(can.mvy < 0)
-            can.mvy *= -1;
-        can.y += can.mvy;
+        can.y += 15;
     }
 }

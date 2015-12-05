@@ -3,6 +3,7 @@
 #include <SDL/SDL.h>
 #include <canard.h>
 #include <SDL/SDL_ttf.h>
+#include <niveau.h>
 
 struct Menu
 {
@@ -21,4 +22,5 @@ void initMenu(Menu &menu);
 void showMenu(Menu menu, SDL_Surface *screen);
 void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet);
 void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can);
+void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[]);
 #endif // AFFICHAGE_H

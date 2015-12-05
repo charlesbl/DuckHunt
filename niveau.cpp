@@ -23,6 +23,13 @@ void initNiveau(Niveau &niv)
     initCanard(niv.cBleu, x, y, 2);
 
     killRandomCan(niv);
+
+    niv.nbHit = 0;
+    for(int i=0; i<10;i++)
+    {
+        niv.hit[i].state = 0;
+        niv.hit[i].rect = {33*i + 190, 670, 10, 10};
+    }
 }
 
 void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
@@ -34,8 +41,48 @@ void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
     if((niv.cNoir.isDead && niv.cMarron.isDead && niv.cBleu.isDead &&
         (niv.cNoir.y > SCREEN_HEIGHT - 200 && niv.cMarron.y > SCREEN_HEIGHT - 200 && niv.cBleu.y > SCREEN_HEIGHT - 200)) || (nbAmmo <= 0))
     {
+        if(nbAmmo <= 0){
+            int alive = getNbAliveCan(niv);
+            for(int i = niv.nbHit; i < alive + niv.nbHit;i++){
+                niv.hit[i].state = 1;
+            }
+            niv.nbHit += alive;
+        }
+        nbAmmo = 3;
+        int x;
+        int y;
+        genRandomPos(x,y);
+        initCanard(niv.cNoir, x, y, 0);
+        genRandomPos(x,y);
+        initCanard(niv.cMarron, x, y, 1);
+        genRandomPos(x,y);
+        initCanard(niv.cBleu, x, y, 2);
+        killRandomCan(niv);
+    }
+
+    if(niv.nbHit >= 10){
         initNiveau(niv);
     }
+}
+
+int getNbAliveCan(Niveau &niv)
+{
+    int a = 0;
+    if(!niv.cBleu.isDead)
+        a++;
+    if(!niv.cMarron.isDead)
+        a++;
+    if(!niv.cNoir.isDead)
+        a++;
+
+    return a;
+}
+
+void killCan(Canard &can, Niveau &niv)
+{
+    can.isDead = true;
+    niv.hit[niv.nbHit].state = 2;
+    niv.nbHit++;
 }
 
 void genRandomPos(int &x, int &y)

@@ -15,13 +15,14 @@ const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 const int SCREEN_BPP=32;
 
-
+//constantes
 const string MENU = "menu.png";
 const string NIVEAU = "backGame.png";
 const string NIVEAUB = "backGameBlit.png";
 const string CROSSAIR = "viseur.png";
 const string BULLET = "shot.png";
 const string DUCK = "duck.png";
+const string HIT = "hit.png";
 int nbAmmo = 3;
 
 
@@ -31,7 +32,7 @@ int main ()
     bool quit=false;
     bool showmenu=true;
 
-    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck = NULL;
+    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck, *hit = NULL;
     SDL_Event event;
     Menu menu;
 
@@ -44,11 +45,13 @@ int main ()
     crossair = SDL_DisplayFormat(IMG_Load(CROSSAIR.c_str()));
     bullet = SDL_DisplayFormat(IMG_Load(BULLET.c_str()));
     duck = SDL_DisplayFormat(IMG_Load(DUCK.c_str()));
+    hit = SDL_DisplayFormat(IMG_Load(HIT.c_str()));
 
-    SDL_SetColorKey(bullet, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 255, 255, 255));
+    SDL_SetColorKey(bullet, SDL_SRCCOLORKEY, SDL_MapRGB(bullet->format, 255, 255, 255));
     SDL_SetColorKey(crossair, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
-    SDL_SetColorKey(fondNiveauB, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 0, 0, 0));
-    SDL_SetColorKey(duck, SDL_SRCCOLORKEY, SDL_MapRGB(crossair->format, 228, 255, 0));
+    SDL_SetColorKey(fondNiveauB, SDL_SRCCOLORKEY, SDL_MapRGB(fondNiveauB->format, 0, 0, 0));
+    SDL_SetColorKey(hit, SDL_SRCCOLORKEY, SDL_MapRGB(hit->format, 0, 0, 0));
+    SDL_SetColorKey(duck, SDL_SRCCOLORKEY, SDL_MapRGB(duck->format, 228, 255, 0));
 
     TTF_Init();
 
@@ -79,6 +82,7 @@ int main ()
 
             SDL_BlitSurface(crossair, NULL, screen, &rCrossair);
             showBullet(nbAmmo, screen, bullet);
+            showHit(screen, hit, niv.hit);
 
         }
         if(keystates[SDLK_SPACE])
@@ -127,11 +131,11 @@ int main ()
                     if(nbAmmo > 0){
                         nbAmmo--;
                         if(onRect(x, y, niv.cNoir.rect)){
-                            niv.cNoir.isDead = true;
+                            killCan(niv.cNoir, niv);
                         }else if(onRect(x, y, niv.cMarron.rect)){
-                            niv.cMarron.isDead = true;
+                            killCan(niv.cMarron, niv);
                         }else if(onRect(x, y, niv.cBleu.rect)){
-                            niv.cBleu.isDead = true;
+                            killCan(niv.cBleu, niv);
                         }
                     }
                 }

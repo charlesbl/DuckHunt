@@ -5,6 +5,7 @@
 #include <SDL/SDL_ttf.h>
 #include <affichage.h>
 #include <canard.h>
+#include <niveau.h>
 
 
 void applySurface(int x, int y, SDL_Surface *source, SDL_Surface* destination, SDL_Rect* clip)
@@ -100,4 +101,20 @@ void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can)
 
 
     applySurface(can.x , can.y, duck, screen, &rect);
+}
+
+void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[])
+{
+    SDL_Rect rect;
+    for(int i = 0; i<10; i++)
+    {
+        if(hit[i].state == 0){
+            rect = {8, 7, 22, 24};
+        }else if(hit[i].state == 1){
+            rect = {32, 7, 22, 24};
+        }else{
+            rect = {56, 7, 22, 24};
+        }
+        applySurface(hit[i].rect.x, hit[i].rect.y,hitSurface, screen, &rect);
+    }
 }
