@@ -70,6 +70,7 @@ int main ()
 
         if(showmenu)
         {
+            SDL_ShowCursor(1);
             showMenu(menu, screen);
         }else
         {
@@ -88,7 +89,7 @@ int main ()
         if(keystates[SDLK_SPACE])
             showmenu=false;
         if(keystates[SDLK_ESCAPE])
-            quit=true;
+            showmenu=true;
 
         while(SDL_PollEvent(&event))
         {

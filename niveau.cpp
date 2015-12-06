@@ -38,8 +38,14 @@ void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
     updateCan(screen, duck, niv.cMarron);
     updateCan(screen, duck, niv.cBleu);
 
-    if((niv.cNoir.isDead && niv.cMarron.isDead && niv.cBleu.isDead &&
-        (niv.cNoir.y > SCREEN_HEIGHT - 200 && niv.cMarron.y > SCREEN_HEIGHT - 200 && niv.cBleu.y > SCREEN_HEIGHT - 200)) || (nbAmmo <= 0))
+    if(nbAmmo <= 0)
+    {
+        niv.cBleu.echape = true;
+        niv.cMarron.echape = true;
+        niv.cNoir.echape = true;
+    }
+
+    if((niv.cNoir.y > SCREEN_HEIGHT - 200 && niv.cMarron.y > SCREEN_HEIGHT - 200 && niv.cBleu.y > SCREEN_HEIGHT - 200))
     {
         if(nbAmmo <= 0){
             int alive = getNbAliveCan(niv);

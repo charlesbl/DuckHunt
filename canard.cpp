@@ -16,6 +16,7 @@ void initCanard(Canard &can, int x, int y, int couleur){
     can.couleur = couleur;
     can.isDead = false;
     can.time = 0;
+    can.echape = false;
     if(couleur == 0)
     {
         can.mvx = vitesseCanNoir;
@@ -44,22 +45,29 @@ void moveCanard(Canard &can)
 
     if(!can.isDead)
     {
-        can.x += can.mvx;
-
-        // Correction Mouvement Horizontal
-        if((can.x + taille > SCREEN_WIDTH) || (can.x < 0))
+        if(!can.echape)
         {
-            can.x -= can.mvx;
-            can.mvx *=- 1;
-        }
+            can.x += can.mvx;
 
-        can.y += can.mvy;
+            // Correction Mouvement Horizontal
+            if((can.x + taille > SCREEN_WIDTH) || (can.x < 0))
+            {
+                can.x -= can.mvx;
+                can.mvx *=- 1;
+            }
 
-        // Correction Mouvement Vertical
-        if((can.y + taille > SCREEN_HEIGHT - 250) || (can.y< 0))
+            can.y += can.mvy;
+
+            // Correction Mouvement Vertical
+            if((can.y + taille > SCREEN_HEIGHT - 250) || (can.y< 0))
+            {
+                can.y -= can.mvy;
+                can.mvy *= -1;
+            }
+        }else
         {
-            can.y -= can.mvy;
-            can.mvy *= -1;
+            can.y += 10;
+            can.x += can.mvx;
         }
     }
     else{
