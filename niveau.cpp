@@ -13,6 +13,7 @@ const int SCREEN_HEIGHT=761;
 void initNiveau(Niveau &niv)
 {
     nbAmmo = 3;
+    niv.score = 0;
     int x;
     int y;
     genRandomPos(x,y);
@@ -89,6 +90,7 @@ void killCan(Canard &can, Niveau &niv)
     can.isDead = true;
     niv.hit[niv.nbHit].state = 2;
     niv.nbHit++;
+    niv.score += 1000;
 }
 
 void genRandomPos(int &x, int &y)

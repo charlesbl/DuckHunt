@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 #include <string>
 #include <ctime>
-#include <sstream>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
@@ -32,7 +32,7 @@ int main ()
     bool quit=false;
     bool showmenu=true;
 
-    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck, *hit = NULL;
+    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck, *hit, *score = NULL;
     SDL_Event event;
     Menu menu;
 
@@ -56,6 +56,12 @@ int main ()
     TTF_Init();
 
     initMenu(menu);
+
+    TTF_Font *scoreFonts;
+    scoreFonts = TTF_OpenFont("duck_hunt.ttf",100);
+    SDL_Color scoreColor = {0, 0 ,0};
+    SDL_Rect scoreRec = {80, 80, 275, 90};
+
 
     ostringstream mssg;
     Uint8 *keystates = SDL_GetKeyState(NULL);
@@ -84,6 +90,12 @@ int main ()
             SDL_BlitSurface(crossair, NULL, screen, &rCrossair);
             showBullet(nbAmmo, screen, bullet);
             showHit(screen, hit, niv.hit);
+
+            mssg.str("");
+            mssg << niv.score;
+            score = TTF_RenderText_Blended(scoreFonts, mssg.str().c_str(), scoreColor);
+            SDL_BlitSurface(score, NULL, screen, &scoreRec);
+            //showScore(screen, score, niv.score);
 
         }
         if(keystates[SDLK_SPACE])

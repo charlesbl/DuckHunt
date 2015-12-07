@@ -23,4 +23,5 @@ void showMenu(Menu menu, SDL_Surface *screen);
 void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet);
 void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can);
 void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[]);
+void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, int score);
 #endif // AFFICHAGE_H

@@ -16,6 +16,7 @@ struct Niveau
     Canard cBleu;
     int nbHit;
     Hit hit[10];
+    int score;
 };
 
 void initNiveau(Niveau &niv);

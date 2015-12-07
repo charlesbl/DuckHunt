@@ -118,3 +118,8 @@ void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[])
         applySurface(hit[i].rect.x, hit[i].rect.y,hitSurface, screen, &rect);
     }
 }
+
+void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, int score)
+{
+
+}
