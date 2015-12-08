@@ -14,12 +14,17 @@ struct Niveau
     Canard cNoir;
     Canard cMarron;
     Canard cBleu;
-    int nbHit;
     Hit hit[10];
+    int nbHit;
     int score;
+    int level;
+    int time;
+    int nbCanRate;
+    bool start;
+    bool perdu;
 };
 
-void initNiveau(Niveau &niv);
+void initNiveau(Niveau &niv, int level, int score);
 void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv);
 void genRandomPos(int &x, int &y);
 void killRandomCan(Niveau &niv);

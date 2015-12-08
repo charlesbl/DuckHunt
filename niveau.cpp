@@ -10,10 +10,15 @@ extern int nbAmmo;
 const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 
-void initNiveau(Niveau &niv)
+void initNiveau(Niveau &niv, int level, int score)
 {
     nbAmmo = 3;
-    niv.score = 0;
+    niv.score = score;
+    niv.level = level;
+    niv.time = 0;
+    niv.start = true;
+    niv.nbCanRate = 0;
+    niv.perdu = false;
     int x;
     int y;
     genRandomPos(x,y);
@@ -46,30 +51,46 @@ void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
         niv.cNoir.echape = true;
     }
 
-    if((niv.cNoir.y > SCREEN_HEIGHT - 200 && niv.cMarron.y > SCREEN_HEIGHT - 200 && niv.cBleu.y > SCREEN_HEIGHT - 200))
+
+    if(niv.nbHit >= 10){
+        niv.time++;
+        if(niv.time > 20){
+            initNiveau(niv, niv.level + 1, niv.score);
+        }
+    }
+    else if((niv.cNoir.y > SCREEN_HEIGHT - 200 || niv.cNoir.y < -20) &&
+            (niv.cMarron.y > SCREEN_HEIGHT - 200 || niv.cMarron.y < -20) &&
+            (niv.cBleu.y > SCREEN_HEIGHT - 200 || niv.cBleu.y < -20))
     {
         if(nbAmmo <= 0){
             int alive = getNbAliveCan(niv);
             for(int i = niv.nbHit; i < alive + niv.nbHit;i++){
                 niv.hit[i].state = 1;
+                niv.nbCanRate++;
             }
             niv.nbHit += alive;
         }
-        nbAmmo = 3;
-        int x;
-        int y;
-        genRandomPos(x,y);
-        initCanard(niv.cNoir, x, y, 0);
-        genRandomPos(x,y);
-        initCanard(niv.cMarron, x, y, 1);
-        genRandomPos(x,y);
-        initCanard(niv.cBleu, x, y, 2);
-        killRandomCan(niv);
+
+        if(niv.nbHit < 10)
+        {
+            nbAmmo = 3;
+            int x;
+            int y;
+            genRandomPos(x,y);
+            initCanard(niv.cNoir, x, y, 0);
+            genRandomPos(x,y);
+            initCanard(niv.cMarron, x, y, 1);
+            genRandomPos(x,y);
+            initCanard(niv.cBleu, x, y, 2);
+            killRandomCan(niv);
+        }
+
     }
 
-    if(niv.nbHit >= 10){
-        initNiveau(niv);
+    if(niv.nbCanRate > 4){
+        niv.perdu = true;
     }
+
 }
 
 int getNbAliveCan(Niveau &niv)
@@ -90,7 +111,13 @@ void killCan(Canard &can, Niveau &niv)
     can.isDead = true;
     niv.hit[niv.nbHit].state = 2;
     niv.nbHit++;
-    niv.score += 1000;
+    if(can.couleur == 0){
+        niv.score += 500;
+    }else if(can.couleur == 1){
+        niv.score += 1000;
+    }else{
+        niv.score += 1500;
+    }
 }
 
 void genRandomPos(int &x, int &y)

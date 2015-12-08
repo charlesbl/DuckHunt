@@ -23,5 +23,7 @@ void showMenu(Menu menu, SDL_Surface *screen);
 void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet);
 void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can);
 void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[]);
-void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, int score);
+void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, TTF_Font *font, int score);
+void showLevel(SDL_Surface *screen, SDL_Surface *nivSurface, TTF_Font *font, Niveau &niv);
+void showGameOver(SDL_Surface *screen, SDL_Surface *gameOverSurface, TTF_Font *font, Niveau &niv);
 #endif // AFFICHAGE_H

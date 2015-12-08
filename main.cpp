@@ -24,15 +24,15 @@ const string BULLET = "shot.png";
 const string DUCK = "duck.png";
 const string HIT = "hit.png";
 int nbAmmo = 3;
+bool quit = false;
+bool showmenu = false;
 
 
 int main ()
 {
     srand(time(NULL));
-    bool quit=false;
-    bool showmenu=true;
 
-    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck, *hit, *score = NULL;
+    SDL_Surface *screen, *fondNiveau, *fondNiveauB, *crossair, *bullet, *duck, *hit, *score, *levelName, *gameOver = NULL;
     SDL_Event event;
     Menu menu;
 
@@ -58,20 +58,19 @@ int main ()
     initMenu(menu);
 
     TTF_Font *scoreFonts;
-    scoreFonts = TTF_OpenFont("duck_hunt.ttf",100);
-    SDL_Color scoreColor = {0, 0 ,0};
-    SDL_Rect scoreRec = {80, 80, 275, 90};
+    scoreFonts = TTF_OpenFont("duck_hunt.ttf", 25);
+
+    TTF_Font *levelFonts;
+    levelFonts = TTF_OpenFont("duck_hunt.ttf", 70);
 
 
-    ostringstream mssg;
     Uint8 *keystates = SDL_GetKeyState(NULL);
 
     Niveau niv;
-    initNiveau(niv);
+    initNiveau(niv, 1, 0);
 
     while(!quit)
     {
-        mssg.flush();
         SDL_FillRect(screen,&screen->clip_rect, SDL_MapRGB(screen->format,0,255,0));
 
         if(showmenu)
@@ -83,7 +82,13 @@ int main ()
             SDL_ShowCursor(0);
             SDL_BlitSurface(fondNiveau, NULL, screen, NULL);
 
-            updateNiv(screen, duck, niv);
+            if(niv.start){
+                showLevel(screen, levelName, levelFonts, niv);
+            }else if(niv.perdu){
+                showGameOver(screen, gameOver, levelFonts, niv);
+            }else{
+                updateNiv(screen, duck, niv);
+            }
 
             SDL_BlitSurface(fondNiveauB, NULL, screen, NULL);
 
@@ -91,11 +96,7 @@ int main ()
             showBullet(nbAmmo, screen, bullet);
             showHit(screen, hit, niv.hit);
 
-            mssg.str("");
-            mssg << niv.score;
-            score = TTF_RenderText_Blended(scoreFonts, mssg.str().c_str(), scoreColor);
-            SDL_BlitSurface(score, NULL, screen, &scoreRec);
-            //showScore(screen, score, niv.score);
+            showScore(screen, score, scoreFonts, niv.score);
 
         }
         if(keystates[SDLK_SPACE])
@@ -141,7 +142,7 @@ int main ()
                         quit = true;
                     }
                 }else{
-                    if(nbAmmo > 0){
+                    if(nbAmmo > 0 && !niv.start){
                         nbAmmo--;
                         if(onRect(x, y, niv.cNoir.rect)){
                             killCan(niv.cNoir, niv);

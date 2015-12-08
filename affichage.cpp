@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <string>
+#include <sstream>
+#include <iostream>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
@@ -7,6 +9,7 @@
 #include <canard.h>
 #include <niveau.h>
 
+extern bool showmenu;
 
 void applySurface(int x, int y, SDL_Surface *source, SDL_Surface* destination, SDL_Rect* clip)
 {
@@ -93,7 +96,7 @@ void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can)
         else
             rect = {75, posCouleur, 72, 87};
     } else {
-        if(can.time % 4 < 2)
+        if(can.time % 6 < 3)
             rect = {529, posCouleur, 40, 87};
         else
             rect = {578, posCouleur, 40, 87};
@@ -119,7 +122,48 @@ void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[])
     }
 }
 
-void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, int score)
+void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, TTF_Font *font, int score)
 {
+    SDL_Color scoreColor = {255, 255 ,255};
+    SDL_Rect scoreRec = {590, 670, 275, 90};
+    std::ostringstream mssg;
+    mssg.flush();
+    mssg.str("");
+    mssg << score;
+    scoreSurface = TTF_RenderText_Blended(font, mssg.str().c_str(), scoreColor);
+    SDL_BlitSurface(scoreSurface, NULL, screen, &scoreRec);
+}
 
+void showLevel(SDL_Surface *screen, SDL_Surface *nivSurface, TTF_Font *font, Niveau &niv){
+    niv.time++;
+    SDL_Color color = {0, 0 ,0};
+    SDL_Rect rect = {200, 150, 275, 90};
+    std::ostringstream mssg;
+    mssg.flush();
+    mssg.str("");
+    mssg << "NIVEAU " << niv.level;
+    nivSurface = TTF_RenderText_Blended(font, mssg.str().c_str(), color);
+    SDL_BlitSurface(nivSurface, NULL, screen, &rect);
+
+    if(niv.time >= 70){
+        niv.start = false;
+        niv.time = 0;
+    }
+}
+void showGameOver(SDL_Surface *screen, SDL_Surface *gameOverSurface, TTF_Font *font, Niveau &niv){
+
+    niv.time++;
+    SDL_Color color = {255, 0 ,0};
+    SDL_Rect rect = {200, 150, 275, 90};
+    std::ostringstream mssg;
+    mssg.flush();
+    mssg.str("");
+    mssg << "GAME OVER";
+    gameOverSurface = TTF_RenderText_Blended(font, mssg.str().c_str(), color);
+    SDL_BlitSurface(gameOverSurface, NULL, screen, &rect);
+
+    if(niv.time >= 70){
+        initNiveau(niv, 1, 0);
+        showmenu = true;
+    }
 }
