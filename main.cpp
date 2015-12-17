@@ -25,7 +25,7 @@ const string DUCK = "duck.png";
 const string HIT = "hit.png";
 int nbAmmo = 3;
 bool quit = false;
-bool showmenu = false;
+bool showmenu = true;
 
 
 int main ()

@@ -11,6 +11,7 @@
 
 extern bool showmenu;
 
+
 void applySurface(int x, int y, SDL_Surface *source, SDL_Surface* destination, SDL_Rect* clip)
 {
     SDL_Rect offset = {x, y, 0 ,0};
@@ -22,6 +23,17 @@ bool onRect(int x, int y, SDL_Rect rect)
     return ((x > rect.x && x < rect.x+rect.w) && (y > rect.y && y < rect.y+rect.h));
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void initMenu(Menu &menu)
 {
     menu.sJouer, menu.sQuit = false;
@@ -39,6 +51,17 @@ void initMenu(Menu &menu)
     menu.fondMenu = IMG_Load(smenu.c_str());
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showMenu(Menu menu, SDL_Surface *screen)
 {
     applySurface(0, 0, menu.fondMenu, screen, NULL);
@@ -53,6 +76,18 @@ void showMenu(Menu menu, SDL_Surface *screen)
     else
         SDL_BlitSurface(menu.tQuit, NULL, screen, &menu.rQuit);
 }
+
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet)
 {
     SDL_Rect rect;
@@ -69,6 +104,17 @@ void showBullet(int nbBullet, SDL_Surface *screen, SDL_Surface *bullet)
     applySurface(63 , 660, bullet, screen, &rect);
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can)
 {
     SDL_Rect rect;
@@ -106,6 +152,17 @@ void showDuck(SDL_Surface *screen, SDL_Surface *duck, Canard can)
     applySurface(can.x , can.y, duck, screen, &rect);
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[])
 {
     SDL_Rect rect;
@@ -122,6 +179,17 @@ void showHit(SDL_Surface *screen, SDL_Surface *hitSurface, Hit hit[])
     }
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, TTF_Font *font, int score)
 {
     SDL_Color scoreColor = {255, 255 ,255};
@@ -134,6 +202,17 @@ void showScore(SDL_Surface *screen, SDL_Surface *scoreSurface, TTF_Font *font, i
     SDL_BlitSurface(scoreSurface, NULL, screen, &scoreRec);
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showLevel(SDL_Surface *screen, SDL_Surface *nivSurface, TTF_Font *font, Niveau &niv){
     niv.time++;
     SDL_Color color = {0, 0 ,0};
@@ -150,6 +229,18 @@ void showLevel(SDL_Surface *screen, SDL_Surface *nivSurface, TTF_Font *font, Niv
         niv.time = 0;
     }
 }
+
+/****************** Nom de la fonction **********************
+* NOM_FONCTION                                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Éventuellement la version                      *
+********************* Description ***************************
+* Vous décrivez ici ce que fait cette fonction              *
+*********************** Entrées *****************************
+* Vous décrivez ici les données en entrée de la fonction    *
+*********************** Sorties *****************************
+* Vous détaillez ici ce que renvoie la fonction             *
+************************************************************/
 void showGameOver(SDL_Surface *screen, SDL_Surface *gameOverSurface, TTF_Font *font, Niveau &niv){
 
     niv.time++;

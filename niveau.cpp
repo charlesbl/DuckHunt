@@ -10,6 +10,22 @@ extern int nbAmmo;
 const int SCREEN_WIDTH=750;
 const int SCREEN_HEIGHT=761;
 
+/****************** Nom de la fonction **********************
+* InitNiveau                                                *
+******************** Auteur , Dates *************************
+* Nom/Date : Charles Blancheton et Yonnel Berwit            *
+********************* Description ***************************
+* Elle initialise le niveau avec le score, le level actuel, *
+* le nombre de balle,l'initialisation des canards avec la   *
+* fonction "initCanard" utilisant les valeurs pour x et y   *
+* de la fonction genRandomPos, ainsi que les 10 canards     *
+*  neutres que l'on va jouer dans le niveau.                *
+*********************** Entrées *****************************
+* Elle prend en entrer la structure niv, le level, et le    *
+* score                                                     *
+*********************** Sorties *****************************
+* La structure niv                                          *
+************************************************************/
 void initNiveau(Niveau &niv, int level, int score)
 {
     nbAmmo = 3;
@@ -38,6 +54,18 @@ void initNiveau(Niveau &niv, int level, int score)
     }
 }
 
+/****************** Nom de la fonction **********************
+* updateNiv                                                 *
+******************** Auteur , Dates *************************
+* Nom/Date : Charles Blancheton                             *
+********************* Description ***************************
+* C'est la fonction général du jeu.                         *
+*********************** Entrées *****************************
+* Elle prend en entrée les surfaces screen et duck et la    *
+* structure niv                                             *
+*********************** Sorties *****************************
+* structure niv                                             *
+************************************************************/
 void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
 {
     updateCan(screen, duck, niv.cNoir);
@@ -93,6 +121,18 @@ void updateNiv(SDL_Surface *screen, SDL_Surface *duck, Niveau &niv)
 
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION : getNbAliveCan                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Charles Blancheton                             *
+********************* Description ***************************
+* Permet de compter le nombreux de canard en vie lorsque que*
+* l'on a plus de balle                                      *
+*********************** Entrées *****************************
+* Elle prend en entrée la structure niv                     *
+*********************** Sorties *****************************
+* Elle prend en sortie la structure niv                     *
+************************************************************/
 int getNbAliveCan(Niveau &niv)
 {
     int a = 0;
@@ -106,6 +146,19 @@ int getNbAliveCan(Niveau &niv)
     return a;
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION : killCan                                    *
+******************** Auteur , Dates *************************
+* Nom/Date : Berwit Yonnel                                  *
+********************* Description ***************************
+* Permet de savoir si un canard est tué. Elle va augmenter
+* le score en fonction de la couleur du canard tué ainsi que
+* changer la couleur du canard.
+*********************** Entrées *****************************
+* Elle prend en entrée la structure can et niv              *
+*********************** Sorties *****************************
+* Elle prend en sortie la structure can et niv              *
+************************************************************/
 void killCan(Canard &can, Niveau &niv)
 {
     can.isDead = true;
@@ -120,12 +173,34 @@ void killCan(Canard &can, Niveau &niv)
     }
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION: genRandomPos                                *
+******************** Auteur , Dates *************************
+* Nom/Date : Charles Blancheton                             *
+********************* Description ***************************
+* Elle prend des valeurs aléatoire pour x et y              *
+*********************** Entrées *****************************
+* Elle prend en entrée deux entiers x et y                  *
+*********************** Sorties *****************************
+* Elle prend en sortie les deux même entiers x et y         *
+************************************************************/
 void genRandomPos(int &x, int &y)
 {
     x = rand() % 650 + 10;
     y = rand() % 400 + 10;
 }
 
+/****************** Nom de la fonction **********************
+* NOM_FONCTION : killRandomCan                              *
+******************** Auteur , Dates *************************
+* Nom/Date : Charles Blancheton                             *
+********************* Description ***************************
+* Tue un des 3 canards aléatoirement                        *
+*********************** Entrées *****************************
+* Elle prend en entrée la structure niv                     *
+*********************** Sorties *****************************
+* Elle prend en sortie la structure niv                     *
+************************************************************/
 void killRandomCan(Niveau &niv)
 {
     int a = rand() % 3;
